@@ -1,0 +1,26 @@
+{
+  "name": "heratmusic3",
+  "version": "1.0.0",
+  "description": "Yet another HeratMusic rewrite",
+  "main": "build/index.js",
+  "scripts": {
+    "build": "npx tsc",
+    "main": "node build/index.js",
+    "buildrun": "npm run build && npm run main",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ates Balci",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.8.2"
+  },
+  "dependencies": {
+    "@discordjs/opus": "^0.10.0",
+    "@discordjs/voice": "^0.18.0",
+    "axios": "^1.8.3",
+    "discord.js": "^14.18.0",
+    "dotenv": "^16.4.7",
+    "ffmpeg": "^0.0.4",
+    "libsodium-wrappers": "^0.7.15"
+  }
+}
