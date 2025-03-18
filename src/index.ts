@@ -1,15 +1,17 @@
 import { Client, CommandInteraction, Events, GatewayIntentBits } from "discord.js";
 import { configDotenv } from "dotenv";
-import { Test } from "./commands/test";
 import { SlashCommand } from "./command";
 import { Play } from "./commands/play";
+import { Skip } from "./commands/skip";
+import { Clear } from "./commands/clear";
 
 configDotenv();
 
 const commands: SlashCommand[] = [
-  new Test(),
-  new Play()
-]
+  new Play(),
+  new Skip(),
+  new Clear()
+];
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates] });
 
 client.once(Events.ClientReady, async readyClient => {

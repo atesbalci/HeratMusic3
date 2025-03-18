@@ -1,17 +1,34 @@
 import { VoiceBasedChannel } from "discord.js";
-import { AudioResource, createAudioPlayer, joinVoiceChannel, NoSubscriberBehavior, VoiceConnection, VoiceConnectionStatus } from "@discordjs/voice";
+import { AudioPlayerStatus, AudioResource, createAudioPlayer, joinVoiceChannel, NoSubscriberBehavior, VoiceConnection, VoiceConnectionStatus } from "@discordjs/voice";
 
 const player = createAudioPlayer({
   behaviors: {
-      noSubscriber: NoSubscriberBehavior.Play
+    noSubscriber: NoSubscriberBehavior.Play
   }
 });
+const onFinishPlayingActions: (() => void)[] = [];
+
 let connection: VoiceConnection;
 let currentAudioSource: AudioResource;
 let volume: number = 1;
 
-export async function play(voice: VoiceBasedChannel, audioSource: AudioResource) {
+player.on('stateChange', function(oldState, newState) {
+  if (oldState.status !== AudioPlayerStatus.Idle && newState.status === AudioPlayerStatus.Idle) {
+    onFinishPlayingActions.forEach(action => action());
+  }
+});
+
+export async function play(audioSource: AudioResource) {
+  if (connection && connection.state.status === VoiceConnectionStatus.Ready) {
+    currentAudioSource = audioSource;
+    currentAudioSource.volume?.setVolume(volume);
+    player.play(currentAudioSource);
+  }
+}
+
+export async function connectAndPlay(voice: VoiceBasedChannel, audioSource: AudioResource) {
   if (voice) {
+    leaveVoice();
     connection = await connectToChannel(voice);
     currentAudioSource = audioSource;
     currentAudioSource.volume?.setVolume(volume);
@@ -37,4 +54,22 @@ async function connectToChannel(channel: VoiceBasedChannel) {
 		connection.destroy();
 		throw error;
 	}
+}
+
+export function getCurrentElapsedClipTime() {
+  return player.state.status === AudioPlayerStatus.Playing ? player.state.playbackDuration : 0;
+}
+
+export function addOnFinishPlayingAction(action: () => void) {
+  onFinishPlayingActions.push(action);
+}
+
+export function stop() {
+  player.stop();
+}
+
+export function leaveVoice() {
+  if (connection && connection.state.status !== VoiceConnectionStatus.Destroyed) {
+    connection.destroy();
+  }
 }

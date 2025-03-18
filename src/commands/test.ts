@@ -1,6 +1,6 @@
 import { ApplicationCommandDataResolvable, ChatInputCommandInteraction, GuildMember, SlashCommandBuilder } from "discord.js";
 import { SlashCommand } from "../command";
-import { play } from "../player";
+import { connectAndPlay } from "../player";
 import { createAudioResource } from "@discordjs/voice";
 
 export class Test implements SlashCommand {
@@ -12,7 +12,7 @@ export class Test implements SlashCommand {
     const voiceChannel = (interaction.member as GuildMember)?.voice?.channel;
     if (!voiceChannel) return;
     await interaction.deferReply();
-    await play(voiceChannel, await createAudioResource('yee.mp3', {inlineVolume: true}));
+    await connectAndPlay(voiceChannel, await createAudioResource('yee.mp3', {inlineVolume: true}));
     await interaction.followUp("Hello world!");
   }
 }

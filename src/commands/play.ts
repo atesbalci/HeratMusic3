@@ -1,10 +1,9 @@
 import { ApplicationCommandDataResolvable, ChatInputCommandInteraction, GuildMember, SlashCommandBuilder, SlashCommandStringOption } from "discord.js";
 import { SlashCommand } from "../command";
-import { play } from "../player";
-import { createAudioResource } from "@discordjs/voice";
-import { playMp3Url } from "../mp3-dl-play";
+import { addToQueue } from "../queue";
+import { getMp3VideoData } from "../mp3-dl-play";
 
-const linkRegex = /\/watch\?v\=([0-9a-zA-z]+)/g;
+const linkRegex = /\/watch\?v\=([0-9a-zA-z]+)/;
 
 export class Play implements SlashCommand {
   name: string = "play";
@@ -19,7 +18,7 @@ export class Play implements SlashCommand {
     const match = linkRegex.exec(url as string);
     if (!voiceChannel || !match) return;
     await interaction.deferReply();
-    await playMp3Url(match[1], voiceChannel);
+    await addToQueue(await getMp3VideoData(match[1]), voiceChannel);
     await interaction.followUp("Playing...");
   }
 }
