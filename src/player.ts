@@ -57,7 +57,7 @@ async function connectToChannel(channel: VoiceBasedChannel) {
 }
 
 export function getCurrentElapsedClipTime() {
-  return player.state.status === AudioPlayerStatus.Playing ? player.state.playbackDuration : 0;
+  return player.state.status === AudioPlayerStatus.Playing ? (player.state.playbackDuration / 1000) : 0;
 }
 
 export function addOnFinishPlayingAction(action: () => void) {

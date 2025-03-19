@@ -4,13 +4,15 @@ import { SlashCommand } from "./command";
 import { Play } from "./commands/play";
 import { Skip } from "./commands/skip";
 import { Clear } from "./commands/clear";
+import { Queue } from "./commands/queue";
 
 configDotenv();
 
 const commands: SlashCommand[] = [
   new Play(),
   new Skip(),
-  new Clear()
+  new Clear(),
+  new Queue()
 ];
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates] });
 

@@ -1,9 +1,9 @@
-import { ApplicationCommandDataResolvable, ChatInputCommandInteraction, GuildMember, SlashCommandBuilder, SlashCommandStringOption } from "discord.js";
+import { ApplicationCommandDataResolvable, ChatInputCommandInteraction, GuildMember, SlashCommandBuilder, SlashCommandStringOption, TextChannel } from "discord.js";
 import { SlashCommand } from "../command";
 import { addToQueue } from "../queue";
-import { getMp3VideoData } from "../mp3-dl-play";
+import { setTextChannel } from "../text-manager";
 
-const linkRegex = /\/watch\?v\=([0-9a-zA-z]+)/;
+const linkRegex = /\/watch\?v\=([A-Za-z0-9_\-]+)/;
 
 export class Play implements SlashCommand {
   name: string = "play";
@@ -18,7 +18,8 @@ export class Play implements SlashCommand {
     const match = linkRegex.exec(url as string);
     if (!voiceChannel || !match) return;
     await interaction.deferReply();
-    await addToQueue(await getMp3VideoData(match[1]), voiceChannel);
-    await interaction.followUp("Playing...");
+    setTextChannel(interaction.channel as TextChannel);
+    await addToQueue(match[1], voiceChannel);
+    await interaction.followUp("Added to queue");
   }
 }

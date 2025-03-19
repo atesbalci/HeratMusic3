@@ -1,8 +1,7 @@
 import axios, { AxiosRequestConfig } from "axios";
-import { createAudioResource, StreamType } from "@discordjs/voice";
-import { VideoData } from "./queue";
+import { AudioResource, createAudioResource, StreamType } from "@discordjs/voice";
 
-export async function getMp3VideoData(id: string) : Promise<VideoData> {
+export async function getMp3Resource(id: string) : Promise<AudioResource> {
   const options: AxiosRequestConfig = {
     method: 'GET',
     url: 'https://youtube-mp36.p.rapidapi.com/dl',
@@ -24,6 +23,5 @@ export async function getMp3VideoData(id: string) : Promise<VideoData> {
     inlineVolume: true,
     inputType: StreamType.Arbitrary
   });
-
-  return new VideoData(response.data.title, response.data.duration, audio);
+  return audio;
 }
