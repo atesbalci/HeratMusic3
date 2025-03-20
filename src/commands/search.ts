@@ -1,7 +1,5 @@
-import { ActionRowBuilder, ApplicationCommandDataResolvable, ButtonBuilder, ButtonStyle, ChatInputCommandInteraction, GuildMember, SlashCommandBuilder, TextChannel } from "discord.js";
+import { ActionRowBuilder, ApplicationCommandDataResolvable, ButtonBuilder, ButtonStyle, ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
 import { SlashCommand } from "../command";
-import { addToQueue } from "../queue";
-import { setTextChannel } from "../text-manager";
 import search, { YouTubeSearchOptions } from "youtube-search";
 
 export class Search implements SlashCommand {
