@@ -12,6 +12,7 @@ export function setTextChannel(channel: TextChannel) {
 addOnPlayingNewTrack(async (data: VideoData) => {
   if (textChannel) {
     removeLiveDuration();
+    await new Promise(resolve => setTimeout(resolve, 1000));
     await textChannel.send({embeds: [songToSmallEmbed(data)]});
     liveDurationText = await textChannel.send({content: currentLiveDurationText() as string});
   }
