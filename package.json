@@ -22,6 +22,7 @@
     "dotenv": "^16.4.7",
     "ffmpeg": "^0.0.4",
     "libsodium-wrappers": "^0.7.15",
-    "moment": "^2.30.1"
+    "moment": "^2.30.1",
+    "youtube-search": "^1.1.6"
   }
 }
