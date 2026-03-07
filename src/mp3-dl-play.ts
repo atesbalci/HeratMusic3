@@ -11,6 +11,7 @@ export async function getMp3Resource(id: string) : Promise<AudioResource> {
       'x-rapidapi-host': 'youtube-mp36.p.rapidapi.com'
     }
   };
+  await new Promise(resolve => setTimeout(resolve, 3000));
   const response = await axios.request(options);
   console.log(response.data);
   const mp3Options: AxiosRequestConfig = {
